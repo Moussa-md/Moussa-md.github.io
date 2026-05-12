@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="https://www.image2url.com/r2/default/images/1778588275816-dd590927-b595-4bdb-98b0-1bcdc7ae6186.png" type="image/png">
+  <title>Moussa MADOUANI – CV</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0c10;
+      --surface: #13151c;
+      --card: #1a1d27;
+      --border: #252836;
+      --accent: #00e5ff;
+      --accent2: #7c4dff;
+      --accent3: #ff6b35;
+      --text: #e8eaf0;
+      --muted: #7b8099;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(11,12,16,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--accent); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: .05em; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    section { padding: 100px 0; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    .section-label {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px; font-family: var(--font-mono);
+    }
+    .section-title {
+      font-family: var(--font-head); font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800; color: var(--text); margin-bottom: 48px;
+      line-height: 1.1;
+    }
+    .section-title span { color: var(--accent); }
+
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+
+    .hero-tag {
+      display: inline-block; font-size: 11px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+    }
+    .hero-name {
+      font-family: var(--font-head); font-size: clamp(42px, 6vw, 76px);
+      font-weight: 800; line-height: 1; margin-bottom: 16px; color: var(--text);
+    }
+    .hero-name .accent { color: var(--accent); }
+    .hero-subtitle {
+      font-size: 13px; color: var(--muted); letter-spacing: .06em;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero-apogee { font-size: 12px; color: var(--text); margin-bottom: 32px; font-family: var(--font-mono); }
+
+    .hero-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 3px; font-size: 12px; letter-spacing: .06em;
+      text-decoration: none; transition: all .2s; font-family: var(--font-mono);
+    }
+    .hero-link.primary { background: var(--accent); color: var(--bg); font-weight: 500; }
+    .hero-link.primary:hover { background: #00bcd4; }
+    .hero-link.secondary { border: 1px solid var(--border); color: var(--muted); }
+    .hero-link.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-avatar-wrap {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .avatar-ring {
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      animation: spinRing 18s linear infinite;
+    }
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+    .avatar-inner {
+      width: 230px; height: 230px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head); font-size: 72px; font-weight: 800;
+      color: var(--bg); animation: spinRing 18s linear infinite reverse;
+      letter-spacing: -4px;
+    }
+    .avatar-dot {
+      position: absolute; width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent); top: 10px; left: 50%; transform: translateX(-50%);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .glow-blob {
+      position: absolute; border-radius: 50%; filter: blur(90px); opacity: .12; pointer-events: none;
+    }
+    .glow-blob.b1 { width: 500px; height: 500px; background: var(--accent2); top: -100px; left: -200px; }
+    .glow-blob.b2 { width: 400px; height: 400px; background: var(--accent); bottom: 0; right: -150px; }
+
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+    .about-stat { display: flex; flex-direction: column; gap: 20px; }
+    .stat-item { border-left: 2px solid var(--accent); padding-left: 18px; }
+    .stat-num { font-family: var(--font-head); font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--muted); letter-spacing: .06em; }
+    .about-bio { color: var(--muted); line-height: 1.9; font-size: 14px; }
+    .about-bio p + p { margin-top: 16px; }
+    .about-bio strong { color: var(--text); }
+
+    #skills { }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .skill-group h3 {
+      font-family: var(--font-head); font-size: 16px; font-weight: 700;
+      color: var(--text); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .skill-group h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .skill-item { margin-bottom: 20px; }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .skill-name { font-size: 13px; color: var(--text); }
+    .skill-pct { font-size: 12px; color: var(--accent); font-family: var(--font-mono); }
+    .skill-bar-bg { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .skill-bar-fill {
+      height: 100%; border-radius: 2px; width: 0;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .skill-tag {
+      font-size: 11px; padding: 4px 12px; border-radius: 2px;
+      border: 1px solid var(--border); color: var(--muted); letter-spacing: .05em;
+      transition: all .2s; cursor: default;
+    }
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,.05); }
+
+    #formations { background: var(--surface); }
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 40px; cursor: pointer;
+    }
+    .timeline-dot {
+      position: absolute; left: -37px; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 10px var(--accent);
+    }
+    .timeline-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 18px 22px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 4px; transition: border-color .2s;
+    }
+    .timeline-header:hover { border-color: var(--accent); }
+    .timeline-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .timeline-org { font-size: 12px; color: var(--accent); }
+    .timeline-toggle { color: var(--muted); font-size: 18px; transition: transform .3s; }
+    .timeline-item.open .timeline-toggle { transform: rotate(45deg); }
+    .timeline-body {
+      display: none; padding: 16px 22px; background: rgba(0,0,0,.2);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 4px 4px; color: var(--muted); font-size: 13px; line-height: 1.8;
+    }
+
+    #projects { }
+    #react-projects { }
+
+    #contact { background: var(--surface); }
+    #react-contact {}
+
+    footer {
+      text-align: center; padding: 32px; color: var(--muted);
+      font-size: 12px; border-top: 1px solid var(--border);
+    }
+    footer span { color: var(--accent); }
+
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero-grid, .about-grid, .skills-grid { grid-template-columns: 1fr; }
+      .hero-avatar-wrap { order: -1; }
+      .avatar-ring { width: 180px; height: 180px; }
+      .avatar-inner { width: 155px; height: 155px; font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MM_</div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#formations">Formation</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="glow-blob b1"></div>
+  <div class="glow-blob b2"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag fade-in">Développeur Web Full-Stack</div>
+        <h1 class="hero-name fade-in">Moussa<br/><span class="accent">MADOUANI</span></h1>
+        <p class="hero-subtitle fade-in">SINF4 · Informatique &amp; Réseaux</p>
+        <p class="hero-subtitle fade-in">Faculté des Sciences Semlalia (FSSM)</p>
+        <p class="hero-apogee fade-in">Apogée : 2330589</p>
+        <div class="hero-links fade-in">
+          <a href="mailto:moussamad2005@gmail.com" class="hero-link primary">✉ Email</a>
+              <p>moussamad2005@gmail.com</p>
+          <a href="https://github.com/Moussa-md" target="_blank" class="hero-link secondary">⌥ GitHub</a>
+          <a href="https://www.linkedin.com/in/moussa-madouani-80238a332" target="_blank" class="hero-link secondary">↗ LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-avatar-wrap fade-in">
+        <div class="avatar-ring">
+          <div class="avatar-inner" style="background:none; overflow:hidden; padding:0;">
+            <img src="https://www.image2url.com/r2/default/images/1778586591707-192a516d-636b-447e-9f73-f9da224abb3a.jpg"
+              alt="Moussa MADOUANI"
+              style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />
+          </div>
+          <div class="avatar-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <p class="section-label fade-in">01 / À propos</p>
+    <h2 class="section-title fade-in">Qui suis-<span>je</span> ?</h2>
+    <div class="about-grid">
+      <div class="about-stat fade-in">
+        <div class="stat-item">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Projets livrés</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Formations certifiées</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">95%</div>
+          <div class="stat-label">Maîtrise en C</div>
+        </div>
+      </div>
+      <div class="about-bio fade-in">
+        <p>Je suis <strong>Moussa MADOUANI</strong>, étudiant en <strong>Sciences Informatiques (SINF4) dans la faculté des sciencses Semlalia</strong>, passionné par le développement web full-stack et la conception d'interfaces utilisateur modernes et performantes.</p>
+        <p>Mon parcours m'a amené à maîtriser des technologies variées, du bas niveau avec le langage C jusqu'aux frameworks modernes comme <strong>React</strong> et <strong>Node.js</strong>. J'accorde une grande importance à la qualité du code, à l'expérience utilisateur et aux bonnes pratiques de développement.</p>
+        <p>J'ai eu l'opportunité de travailler sur des projets concrets — notamment le site web d'un cabinet d'avocat et plusieurs landing pages — ce qui m'a permis d'acquérir une réelle expérience professionnelle.</p>
+        <p>Toujours en quête d'apprentissage, je me forme continuellement via des plateformes reconnues comme <strong>Coursera</strong> et <strong>Alison</strong>. Mon objectif est de devenir un développeur web complet, capable de construire des solutions numériques robustes et esthétiques.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="skills">
+  <div class="container">
+    <p class="section-label fade-in">02 / Compétences</p>
+    <h2 class="section-title fade-in">Stack <span>Technique</span></h2>
+    <div class="skills-grid">
+      <div class="skill-group fade-in">
+        <h3>Front-End</h3>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">HTML / CSS / JS</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">React</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript</span><span class="skill-tag">React</span>
+          <span class="skill-tag">Responsive</span><span class="skill-tag">UI/UX</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>Langages</h3>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">C</span><span class="skill-pct">95%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Python</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">C++</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>Back-End &amp; Outils</h3>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Git &amp; GitHub</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Command Line</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">PHP</span><span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Git</span><span class="skill-tag">Bash</span>
+          <span class="skill-tag">Linux</span><span class="skill-tag">SEO</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>Soft Skills</h3>
+        <div class="skill-tags" style="margin-top:0">
+          <span class="skill-tag">Travail en équipe</span>
+          <span class="skill-tag">Autonomie</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Curiosité</span>
+          <span class="skill-tag">Rigueur</span>
+          <span class="skill-tag">Communication</span>
+          <span class="skill-tag">Adaptabilité</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="formations">
+  <div class="container">
+    <p class="section-label fade-in">03 / Formation</p>
+    <h2 class="section-title fade-in">Parcours <span>Académique</span></h2>
+    <div class="timeline fade-in">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">SINF4 – Sciences Informatiques</div>
+            <div class="timeline-org">Université Cady ayyad / faculté des sciencses Semlalia</div>
+          </div>
+          <div class="timeline-toggle">+</div>
+        </div>
+        <div class="timeline-body">
+          Formation en Sciences Informatiques, niveau 4. Apprentissage approfondi des algorithmes, des structures de données, des systèmes d'exploitation, des réseaux et du développement logiciel.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">Formation Command Line</div>
+            <div class="timeline-org">1337 School</div>
+          </div>
+          <div class="timeline-toggle">+</div>
+        </div>
+        <div class="timeline-body">
+          Formation intensive en ligne de commande dispensée par l'école 1337. Maîtrise du terminal Unix/Linux, scripting bash, gestion de fichiers, processus et automatisation.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">HTML, CSS &amp; JavaScript for Web Developers</div>
+            <div class="timeline-org">Johns Hopkins University · Coursera</div>
+          </div>
+          <div class="timeline-toggle">+</div>
+        </div>
+        <div class="timeline-body">
+          Cours en ligne certifié, autorisé par l'Université Johns Hopkins. Couvre les fondamentaux du développement web front-end : sémantique HTML5, CSS3 avancé, JavaScript ES6+ et responsive design.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">UI and UX Design</div>
+            <div class="timeline-org">İlbey UÇAR · Alison</div>
+          </div>
+          <div class="timeline-toggle">+</div>
+        </div>
+        <div class="timeline-body">
+          Formation en design d'interfaces et expérience utilisateur. Apprentissage des principes de l'UX, wireframing, prototypage et bonnes pratiques d'accessibilité.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">The Ultimate SEO Blueprint (Google SEO)</div>
+            <div class="timeline-org">Juan Galvan · Alison</div>
+          </div>
+          <div class="timeline-toggle">+</div>
+        </div>
+        <div class="timeline-body">
+          Formation complète sur l'optimisation pour les moteurs de recherche : SEO on-page, off-page, audit technique, recherche de mots-clés, stratégie de contenu et outils Google.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <p class="section-label fade-in">04 / Expériences &amp; Projets</p>
+    <h2 class="section-title fade-in">Réalisations <span>Concrètes</span></h2>
+    <div id="react-projects"></div>
+  </div>
+</section>
+
+
+<section id="contact">
+  <div class="container">
+    <p class="section-label fade-in">05 / Contact</p>
+    <h2 class="section-title fade-in">Travaillons <span>Ensemble</span></h2>
+    <div id="react-contact"></div>
+  </div>
+</section>
+
+<footer>
+  <p>Conçu &amp; développé par <span>Moussa MADOUANI</span> ·FSSM (SINF4) · 2026</p>
+</footer>
+
+
+<script type="text/babel">
+
+
+function ProjectCard({ title, description, tags, link, demo, index }) {
+  const colors = ['#00e5ff', '#7c4dff', '#ff6b35'];
+  const accent = colors[index % colors.length];
+  return (
+    <div style={{
+      background: 'var(--card)',
+      border: `1px solid var(--border)`,
+      borderRadius: '6px',
+      padding: '28px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '16px',
+      transition: 'border-color .25s, transform .25s',
+      cursor: 'default',
+      position: 'relative',
+      overflow: 'hidden',
+    }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor = accent; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+    >
+      
+      <div style={{ position:'absolute', top:0, right:0, width:'60px', height:'60px',
+        background: `linear-gradient(225deg, ${accent}22, transparent)`,
+        borderBottomLeftRadius:'60px' }}/>
+
+      <div style={{ display:'flex', alignItems:'center', gap:'12px' }}>
+        <div style={{ width:'36px', height:'36px', borderRadius:'50%', background:`${accent}22`,
+          border:`1px solid ${accent}`, display:'flex', alignItems:'center', justifyContent:'center',
+          color: accent, fontFamily:'var(--font-head)', fontWeight:800, fontSize:'14px' }}>
+          {String(index + 1).padStart(2,'0')}
+        </div>
+        <h3 style={{ fontFamily:'var(--font-head)', fontSize:'18px', fontWeight:700, color:'var(--text)' }}>
+          {title}
+        </h3>
+      </div>
+
+      <p style={{ fontSize:'13px', color:'var(--muted)', lineHeight:'1.8', flex:1 }}>{description}</p>
+
+      <div style={{ display:'flex', flexWrap:'wrap', gap:'8px' }}>
+        {tags.map(t => (
+          <span key={t} style={{
+            fontSize:'11px', padding:'3px 10px', borderRadius:'2px',
+            border:`1px solid ${accent}44`, color: accent, letterSpacing:'.05em'
+          }}>{t}</span>
+        ))}
+      </div>
+
+      <div style={{ display:'flex', gap:'12px', marginTop:'4px' }}>
+        {demo && (
+          <a href={demo} target="_blank" rel="noreferrer" style={{
+            fontSize:'12px', color:'var(--bg)', background: accent,
+            padding:'8px 18px', borderRadius:'3px', textDecoration:'none',
+            fontFamily:'var(--font-mono)', letterSpacing:'.04em', transition:'opacity .2s'
+          }}
+          onMouseEnter={e => e.currentTarget.style.opacity='.8'}
+          onMouseLeave={e => e.currentTarget.style.opacity='1'}
+          >↗ Voir le site</a>
+        )}
+        {link && (
+          <a href={link} target="_blank" rel="noreferrer" style={{
+            fontSize:'12px', color: accent,
+            border:`1px solid ${accent}`,
+            padding:'8px 18px', borderRadius:'3px', textDecoration:'none',
+            fontFamily:'var(--font-mono)', letterSpacing:'.04em', transition:'all .2s'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background=`${accent}15`; }}
+          onMouseLeave={e => { e.currentTarget.style.background='transparent'; }}
+          >⌥ GitHub</a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+const projects = [
+  {
+    title: "Site Web Avocat",
+    description: "Site web professionnel pour un cabinet d'avocat. Conception d'une interface élégante et responsive, avec présentation des services juridiques, pages de contact et optimisation SEO pour améliorer la visibilité en ligne du cabinet.",
+    tags: ["HTML", "CSS", "JavaScript", "PHP", "SEO", "Responsive"],
+    demo: "https://avocattinghir.com/",
+  },
+  {
+    title: "DadesWeb – Landing Page",
+    description: "Landing page moderne et performante pour une agence web. Design attractif mettant en valeur les services proposés, avec animations CSS et appel à l'action optimisé pour la conversion.",
+    tags: ["HTML", "CSS", "JS", "UI Design", "Performance"],
+    demo: "https://www.dadesweb.com/",
+  },
+  {
+    title: "Mama Africa – Projet Web",
+    description: "Projet web complet développé dans un contexte académique. Présentation d'un site dédié à la culture africaine avec une architecture multi-pages, galerie d'images et navigation interactive.",
+    tags: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
+    demo: "https://moussa-md.github.io/projet_web/",
+    link: "https://github.com/Moussa-md",
+  },
+];
+
+function ProjectsGrid() {
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: '24px'
+    }}>
+      {projects.map((p, i) => <ProjectCard key={i} {...p} index={i} />)}
+    </div>
+  );
+}
+
+
+function ContactForm() {
+  const [form, setForm] = React.useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = React.useState({});
+  const [sent, setSent] = React.useState(false);
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Le nom est requis.';
+    if (!form.email.trim()) e.email = "L'email est requis.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Format email invalide.';
+    if (!form.message.trim()) e.message = 'Le message est requis.';
+    return e;
+  };
+
+  const handleSubmit = () => {
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length === 0) {
+      setSent(true);
+    }
+  };
+
+  const inputStyle = (field) => ({
+    width: '100%', background: 'var(--card)',
+    border: `1px solid ${errors[field] ? '#ff4757' : 'var(--border)'}`,
+    borderRadius: '4px', padding: '12px 16px',
+    color: 'var(--text)', fontFamily: 'var(--font-mono)',
+    fontSize: '13px', outline: 'none', transition: 'border-color .2s',
+  });
+
+  if (sent) {
+    return (
+      <div style={{ textAlign:'center', padding:'60px 0' }}>
+        <div style={{ fontSize:'48px', marginBottom:'16px' }}>✓</div>
+        <h3 style={{ fontFamily:'var(--font-head)', color:'var(--accent)', fontSize:'24px', marginBottom:'8px' }}>Message envoyé !</h3>
+        <p style={{ color:'var(--muted)' }}>Merci de me contacter. Je vous répondrai dans les plus brefs délais.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth:'580px' }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:'20px' }}>
+
+        <div>
+          <label style={{ fontSize:'11px', letterSpacing:'.1em', color:'var(--muted)', textTransform:'uppercase', marginBottom:'8px', display:'block' }}>Nom</label>
+          <input
+            type="text" placeholder="Votre nom complet"
+            value={form.name}
+            onChange={e => setForm({...form, name: e.target.value})}
+            style={inputStyle('name')}
+            onFocus={e => e.target.style.borderColor='var(--accent)'}
+            onBlur={e => e.target.style.borderColor = errors.name ? '#ff4757' : 'var(--border)'}
+          />
+          {errors.name && <p style={{ color:'#ff4757', fontSize:'12px', marginTop:'6px' }}>{errors.name}</p>}
+        </div>
+
+        <div>
+          <label style={{ fontSize:'11px', letterSpacing:'.1em', color:'var(--muted)', textTransform:'uppercase', marginBottom:'8px', display:'block' }}>Email</label>
+          <input
+            type="email" placeholder="votre@email.com"
+            value={form.email}
+            onChange={e => setForm({...form, email: e.target.value})}
+            style={inputStyle('email')}
+            onFocus={e => e.target.style.borderColor='var(--accent)'}
+            onBlur={e => e.target.style.borderColor = errors.email ? '#ff4757' : 'var(--border)'}
+          />
+          {errors.email && <p style={{ color:'#ff4757', fontSize:'12px', marginTop:'6px' }}>{errors.email}</p>}
+        </div>
+
+        <div>
+          <label style={{ fontSize:'11px', letterSpacing:'.1em', color:'var(--muted)', textTransform:'uppercase', marginBottom:'8px', display:'block' }}>Message</label>
+          <textarea
+            placeholder="Votre message..."
+            value={form.message}
+            onChange={e => setForm({...form, message: e.target.value})}
+            rows={5}
+            style={{ ...inputStyle('message'), resize:'vertical' }}
+            onFocus={e => e.target.style.borderColor='var(--accent)'}
+            onBlur={e => e.target.style.borderColor = errors.message ? '#ff4757' : 'var(--border)'}
+          />
+          {errors.message && <p style={{ color:'#ff4757', fontSize:'12px', marginTop:'6px' }}>{errors.message}</p>}
+        </div>
+
+        <button
+          onClick={handleSubmit}
+          style={{
+            padding:'14px 32px', background:'var(--accent)', color:'var(--bg)',
+            border:'none', borderRadius:'4px', fontFamily:'var(--font-head)',
+            fontSize:'15px', fontWeight:700, cursor:'pointer',
+            letterSpacing:'.04em', transition:'opacity .2s', alignSelf:'flex-start'
+          }}
+          onMouseEnter={e => e.currentTarget.style.opacity='.85'}
+          onMouseLeave={e => e.currentTarget.style.opacity='1'}
+        >
+          Envoyer le message →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.render(<ProjectsGrid />, document.getElementById('react-projects'));
+ReactDOM.render(<ContactForm />, document.getElementById('react-contact'));
+
+</script>
+
+
+<script>
+$(document).ready(function () {
+
+ 
+  function checkFade() {
+    $('.fade-in').each(function () {
+      var top = $(this).offset().top;
+      if (top < $(window).scrollTop() + $(window).height() - 60) {
+        $(this).addClass('visible');
+      }
+    });
+  }
+  $(window).on('scroll', checkFade);
+  checkFade();
+
+ 
+  var barsAnimated = false;
+  function animateBars() {
+    if (barsAnimated) return;
+    var skillsTop = $('#skills').offset().top;
+    if ($(window).scrollTop() + $(window).height() > skillsTop + 100) {
+      barsAnimated = true;
+      $('.skill-bar-fill').each(function () {
+        var w = $(this).data('width') + '%';
+        $(this).animate({ width: w }, 1200);
+      });
+    }
+  }
+  $(window).on('scroll', animateBars);
+  animateBars();
+
+
+  $(document).on('mouseenter', '.skill-tag', function () {
+    $(this).stop(true).animate({}, 150);
+    $(this).css({ letterSpacing: '.12em' });
+  }).on('mouseleave', '.skill-tag', function () {
+    $(this).css({ letterSpacing: '.05em' });
+  });
+
+
+  $('.timeline-header').on('click', function () {
+    var item = $(this).closest('.timeline-item');
+    var body = item.find('.timeline-body');
+    var toggle = item.find('.timeline-toggle');
+
+    if (item.hasClass('open')) {
+      item.removeClass('open');
+      body.slideUp(300);
+      toggle.css('transform', 'rotate(0deg)');
+    } else {
+      $('.timeline-item').removeClass('open');
+      $('.timeline-body').slideUp(300);
+      $('.timeline-toggle').css('transform', 'rotate(0deg)');
+
+      item.addClass('open');
+      body.slideDown(300);
+      toggle.css('transform', 'rotate(45deg)');
+    }
+  });
+
+
+  $(window).on('scroll', function () {
+    var pos = $(this).scrollTop();
+    $('section').each(function () {
+      var id = $(this).attr('id');
+      var top = $(this).offset().top - 120;
+      var bot = top + $(this).outerHeight();
+      if (pos >= top && pos < bot) {
+        $('.nav-links a').removeClass('active').css('color','');
+        $('.nav-links a[href="#' + id + '"]').css('color', 'var(--accent)');
+      }
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>
